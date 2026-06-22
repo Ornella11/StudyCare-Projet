@@ -1,35 +1,75 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { mockUnitesEnseignement } from '../mocks/notesMock.js'
+import { useNotesStore } from '@/stores/notesStores.js'
+import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
-const unitesEnseignement = ref(mockUnitesEnseignement)
-// Calculer la moyenne
-const calculerMoyenneUE = (ue) => {
-  if (!ue.matieres || ue.matieres.length === 0) return 0
+const notesStore = useNotesStore()
+
+const telechargerPDF = () => {
+  const doc = new jsPDF()
+
+  doc.setFont("helvetica", "bold")
+  doc.setFontSize(22)
+  doc.setTextColor(40, 56, 123)
+  doc.text("STUDYCARE - BULLETIN DE NOTES", 14, 20)
   
-  let totalPoints = 0
-  let totalCoefficients = 0
+  doc.setFont("helvetica", "normal")
+  doc.setFontSize(12)
+  doc.setTextColor(100, 100, 100)
+  doc.text(`Periode : Semestre ${notesStore.semestreActuel}`, 14, 28)
+  doc.text(`Date de generation : ${new Date().toLocaleDateString()}`, 14, 34)
+  
+  doc.setDrawColor(200, 200, 200)
+  doc.line(14, 38, 196, 38)
 
-  ue.matieres.forEach(matiere => {
-    totalPoints += matiere.note * matiere.coef
-    totalCoefficients += matiere.coef
+  const colonnesTableau = ["Matiere / Unite d'Enseignement", "Coefficient", "Note / 20"]
+  const lignesTableau = []
+
+  notesStore.unitesEnseignementActuelles.forEach(ue => {
+    lignesTableau.push([
+      ue.nom.toUpperCase(), 
+      "-", 
+      `${notesStore.calculerMoyenneUE(ue)} / 20 (Moyenne UE)`
+    ])
+    
+    ue.matieres.forEach(matiere => {
+      lignesTableau.push([
+        `• ${matiere.nom}`, 
+        matiere.coef.toString(),
+        `${matiere.note} / 20`
+      ])
+    })
   })
 
-  const moyenne = totalPoints / totalCoefficients
-  return moyenne.toFixed(2)
+  lignesTableau.push([
+    "MOYENNE GENERALE DU SEMESTRE",
+    "-",
+    `${notesStore.moyenneGenerale} / 20`
+  ])
+
+  // générer le tableau automatiquement
+  autoTable(doc, {
+    startY: 45,
+    head: [colonnesTableau],
+    body: lignesTableau,
+    theme: 'striped',
+    headStyles: { fillColor: [40, 56, 123], textColor: [255, 255, 255], fontStyle: 'bold' },
+    didParseCell: function (data) {
+      if (data.section === 'body') {
+        const estLigneMatiere = data.row.raw[0] && data.row.raw[0].toString().trim().startsWith('•');
+        if (!estLigneMatiere || data.row.index === lignesTableau.length - 1) {
+          data.cell.styles.fontStyle = 'bold';
+          if (data.row.index === lignesTableau.length - 1) {
+            data.cell.styles.fillColor = [240, 240, 240];
+          }
+        }
+      }
+    }
+  })
+
+  // Téléchargement
+  doc.save(`Bulletin_Semestre_${notesStore.semestreActuel}_StudyCare.pdf`)
 }
-const moyenneGenerale = computed(() => {
-  let totalMoyennesUE = 0
-  let nombreUE = unitesEnseignement.value.length
-
-  if (nombreUE === 0) return 0
-
-  unitesEnseignement.value.forEach(ue => {
-    totalMoyennesUE += Number(calculerMoyenneUE(ue))
-  })
-
-  return (totalMoyennesUE / nombreUE).toFixed(2)
-})
 </script>
 
 <template>
@@ -39,19 +79,21 @@ const moyenneGenerale = computed(() => {
     </div>
 
     <div>
-      <div>Semestre 1</div>
-      <div>Semestre 2</div>
+<div>
+  <button @click="notesStore.setSemestre(1)" :class="{ active: notesStore.semestreActuel === 1 }">Semestre 1</button>
+  <button @click="notesStore.setSemestre(2)" :class="{ active: notesStore.semestreActuel === 2 }">Semestre 2</button>
+</div>
     </div>
 
     <div>
       <div> 
-        <button>Télécharger mon bulletin</button> 
+        <button @click="telechargerPDF">Télécharger mon bulletin</button>
       </div>
 
       <div>
-        <div v-for="ue in unitesEnseignement" :key="ue.id">
+        <div v-for="ue in notesStore.unitesEnseignementActuelles" :key="ue.id">
           <h2>{{ ue.nom }} - (ECTS - /{{ ue.ects }})</h2>
-          <h3>Moyenne UE : {{ calculerMoyenneUE(ue) }} / 20</h3>
+          <h3>Moyenne UE : {{ notesStore.calculerMoyenneUE(ue) }} / 20</h3>
           <p>Matière | Coef | Note</p>
 
           <div>
@@ -62,7 +104,7 @@ const moyenneGenerale = computed(() => {
         </div>
       </div>
       
-      <h3>Moyenne GENERALE : {{ moyenneGenerale }} / 20</h3>
+      <h3>Moyenne GENERALE : {{ notesStore.moyenneGenerale }} / 20</h3>
     </div>
   </div>
 </template>
