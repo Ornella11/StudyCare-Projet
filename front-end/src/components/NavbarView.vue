@@ -75,25 +75,31 @@ const authStore = useAuthStore()
   align-items: center;
   gap: 10px;
 }
+
 .navbar-brand img {
   height: 45px;
   width: auto;
 }
+
 .navbar-brand a {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #d97736;
+  color: #495057;
   text-decoration: none;
   font-style: italic;
+}
+
+.orange-text {
+  color: #d97736;
 }
 
 .navbar-links {
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 15px;
 }
 
-.nav-link {
+.navbar-links a {
   color: #495057;
   text-decoration: none;
   font-weight: 500;
@@ -103,16 +109,16 @@ const authStore = useAuthStore()
   transition: all 0.2s ease;
 }
 
-.router-link-active.nav-link {
+.navbar-links a.router-link-active,
+.navbar-links .router-link-active.nav-link {
   background-color: #4477ce;
   color: #ffffff !important;
 }
 
-.nav-link:not(.router-link-active):hover {
+.navbar-links a:not(.router-link-active):hover {
   color: #4477ce;
   background-color: #f1f3f5;
 }
-
 
 .navbar-actions {
   display: flex;
@@ -130,13 +136,14 @@ const authStore = useAuthStore()
   border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.2s;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .btn-auth:hover {
   background-color: #c2652b;
 }
 
-/* Icône de profil si connecté (Optionnel - Style SVG) */
 .profile-icon {
   width: 32px;
   height: 32px;
