@@ -1,11 +1,27 @@
-<script setup></script>
+<script setup>
+import Navbar from './components/NavbarView.vue'
+import { useAuthStore } from '@/stores/authStores.js'
+
+
+const authStore = useAuthStore()
+const router = useRouter()
+import { useRouter } from 'vue-router'
+
+const handleLogout = () => {
+  authStore.logout()
+  router.push('/')
+}
+</script>
 
 <template>
-  <h1>Test</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
-</template>
+  <div>
+    <Navbar />
 
-<style scoped></style>
+    <button v-if="authStore.isAuthenticated" @click="handleLogout()">Déconnexion</button>
+    <router-link v-if="authStore.userRole === 'Administrateur'" to="/admin">Espace Admin</router-link>
+
+    <main>
+      <RouterView />
+    </main>
+  </div>
+</template>
