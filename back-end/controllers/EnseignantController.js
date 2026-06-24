@@ -30,3 +30,65 @@ exports.updateNote = async (req, res) => {
 
   res.json({ message: 'Note modifiée' })
 }
+
+exports.ajouterNote = async (req, res) => {
+  const { id_etudiant, id_matiere, note, type_evaluation, date_evaluation } = req.body
+
+  try {
+    const [result] = await db.query(
+      `INSERT INTO notes 
+      (id_etudiant, id_matiere, note, type_evaluation, date_evaluation)
+      VALUES (?, ?, ?, ?, ?)`,
+      [id_etudiant, id_matiere, note, type_evaluation, date_evaluation]
+    )
+
+    res.status(201).json({ id_note: result.insertId })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Erreur ajout note' })
+  }
+}
+
+exports.supprimerNote = async (req, res) => {
+  const { idNote } = req.params
+
+  try {
+    await db.query('DELETE FROM notes WHERE id_note = ?', [idNote])
+    res.json({ message: 'Note supprimée' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Erreur suppression note' })
+  }
+}
+
+exports.ajouterMatiere = async (req, res) => {
+  const { nom_matiere, id_module, id_enseignant, coefficient } = req.body
+
+  try {
+    const [result] = await db.query(
+      `INSERT INTO matieres 
+      (nom_matiere, id_module, id_enseignant, coefficient)
+      VALUES (?, ?, ?, ?)`,
+      [nom_matiere, id_module, id_enseignant, coefficient]
+    )
+
+    res.status(201).json({ id_matiere: result.insertId })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Erreur ajout matière' })
+  }
+}
+
+exports.supprimerMatiere = async (req, res) => {
+  const { idMatiere } = req.params
+
+  try {
+    await db.query('DELETE FROM notes WHERE id_matiere = ?', [idMatiere])
+    await db.query('DELETE FROM matieres WHERE id_matiere = ?', [idMatiere])
+
+    res.json({ message: 'Matière supprimée' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Erreur suppression matière' })
+  }
+}
