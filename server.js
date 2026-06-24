@@ -6,6 +6,7 @@ const cors = require('cors')
 const routes = require('./back-end/routes/routes')
 const notesRoutes = require('./back-end/routes/notesRoutes')
 const enseignantRoutes = require('./back-end/routes/enseignantRoutes')
+const adminRoutes = require('./back-end/routes/adminRoutes')
 
 
 const app = express()
@@ -74,6 +75,8 @@ app.post('/api/login', async (req, res) => {
 app.use('/api/notes', notesRoutes)
 
 app.use('/api/enseignant', enseignantRoutes)
+
+app.use('/api/admin', adminRoutes)
 
 app.listen(process.env.PORT, () => {
   console.log(`Serveur démarré sur le port ${process.env.PORT}`)
