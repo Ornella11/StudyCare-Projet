@@ -1,14 +1,23 @@
-<template>
-  <nav>
-    <div>
-      <RouterLink to="/"><img src="" alt="StudyCare Logo" class="logo" /> </RouterLink>
-    </div>
+<script setup>
+import { useAuthStore } from '@/stores/authStores.js'
+const authStore = useAuthStore()
+</script>
 
-    <div>
-      <RouterLink to="/">Accueil</RouterLink>
-      <RouterLink to="/notes">Notes</RouterLink>
-      <RouterLink to="/dashboard">Dashboard</RouterLink>
-      <RouterLink to="/connexion">Connexion</RouterLink>
-    </div>
+<template>
+  <nav class="navbar">
+    <router-link to="/">Accueil</router-link>
+
+    <router-link v-if="!authStore.isAuthenticated" to="/connexion">Connexion</router-link>
+
+    <template v-if="authStore.isAuthenticated">
+      <router-link to="/notes">Mes Notes</router-link>
+      <router-link to="/dashboard">Dashboard</router-link>
+    </template>
+
+    <router-link v-if="authStore.userRole === 'Administrateur'" to="/admin">Gestion Utilisateurs</router-link>
+
+    <button v-if="authStore.isAuthenticated" @click="authStore.logout()" class="btn-logout">
+      Déconnexion ({{ authStore.userRole }})
+    </button>
   </nav>
 </template>

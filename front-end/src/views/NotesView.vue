@@ -1,9 +1,11 @@
 <script setup>
 import { useNotesStore } from '@/stores/notesStores.js'
+import { useAuthStore } from '@/stores/authStores.js'
 import { jsPDF } from 'jspdf'
 import autoTable from 'jspdf-autotable'
 
 const notesStore = useNotesStore()
+const authStore = useAuthStore() 
 
 const telechargerPDF = () => {
   const doc = new jsPDF()
@@ -47,7 +49,6 @@ const telechargerPDF = () => {
     `${notesStore.moyenneGenerale} / 20`
   ])
 
-  // générer le tableau automatiquement
   autoTable(doc, {
     startY: 45,
     head: [colonnesTableau],
@@ -67,7 +68,6 @@ const telechargerPDF = () => {
     }
   })
 
-  // Téléchargement
   doc.save(`Bulletin_Semestre_${notesStore.semestreActuel}_StudyCare.pdf`)
 }
 </script>
@@ -79,10 +79,10 @@ const telechargerPDF = () => {
     </div>
 
     <div>
-<div>
-  <button @click="notesStore.setSemestre(1)" :class="{ active: notesStore.semestreActuel === 1 }">Semestre 1</button>
-  <button @click="notesStore.setSemestre(2)" :class="{ active: notesStore.semestreActuel === 2 }">Semestre 2</button>
-</div>
+      <div>
+        <button @click="notesStore.setSemestre(1)" :class="{ active: notesStore.semestreActuel === 1 }">Semestre 1</button>
+        <button @click="notesStore.setSemestre(2)" :class="{ active: notesStore.semestreActuel === 2 }">Semestre 2</button>
+      </div>
     </div>
 
     <div>
@@ -98,7 +98,20 @@ const telechargerPDF = () => {
 
           <div>
             <li v-for="matiere in ue.matieres" :key="matiere.nom">
-              {{ matiere.nom }} | {{ matiere.coef }} | {{ matiere.note }}
+              {{ matiere.nom }} | Coef: {{ matiere.coef }} | 
+              
+              <span v-if="authStore.userRole === 'Étudiant'" class="note-badge">
+                {{ matiere.note }} / 20
+              </span>
+
+              <input 
+                v-else-if="authStore.userRole === 'Enseignant' || authStore.userRole === 'Administrateur'" 
+                v-model.number="matiere.note" 
+                type="number" 
+                min="0" 
+                max="20" 
+                class="input-note"
+              />
             </li>
           </div>
         </div>
