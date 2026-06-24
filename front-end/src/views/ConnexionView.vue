@@ -11,12 +11,39 @@ const emailReset = ref('')
 const mode = ref('login')
 const messageSucces = ref('')
 
-const handleLogin = () => {
-  if (email.value && password.value) {
-    const role = authStore.login(email.value, password.value)
-    alert(`Connexion réussie ! Rôle détecté : ${role}`)
-    
-    router.push('/notes') 
+const handleLogin = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: email.value,
+        mot_de_passe: password.value
+      })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      alert(data.message)
+      return
+    }
+
+    authStore.setUser(data)
+
+    if (data.role === 'Administrateur') {
+      router.push('/admin')
+    } else if (data.role === 'Enseignant') {
+      router.push('/dashboard')
+    } else {
+      router.push('/notes')
+    }
+
+  } catch (error) {
+    console.error(error)
+    alert('Impossible de contacter le serveur')
   }
 }
 
@@ -36,7 +63,7 @@ const handleResetPassword = () => {
   <div class="auth-container">
     <div class="auth-card">
       <h2>StudyCare</h2>
-      
+
       <div v-if="mode === 'login'">
         <h3>Connexion</h3>
         <form @submit.prevent="handleLogin">
@@ -44,7 +71,7 @@ const handleResetPassword = () => {
             <label>Adresse E-mail</label>
             <input v-model="email" type="email" placeholder="etudiant@univ.fr, admin@univ.fr..." required />
           </div>
-          
+
           <div class="input-group">
             <label>Mot de passe</label>
             <input v-model="password" type="password" placeholder="••••••••" required   />
@@ -52,7 +79,7 @@ const handleResetPassword = () => {
 
           <button type="submit" class="btn-primary">Se connecter</button>
         </form>
-        
+
         <p class="switch-mode">
           <a href="#" @click.prevent="mode = 'forgot'">Mot de passe oublié ?</a>
         </p>
@@ -61,7 +88,7 @@ const handleResetPassword = () => {
       <div v-else-if="mode === 'forgot'">
         <h3>Réinitialiser le mot de passe</h3>
         <p class="info-text">Saisissez votre e-mail pour recevoir un lien de récupération.</p>
-        
+
         <div v-if="messageSucces" class="alert-success">{{ messageSucces }}</div>
 
         <form @submit.prevent="handleResetPassword">
@@ -72,7 +99,7 @@ const handleResetPassword = () => {
 
           <button type="submit" class="btn-primary">Envoyer la demande</button>
         </form>
-        
+
         <p class="switch-mode">
           <a href="#" @click.prevent="mode = 'login'">Retour à la connexion</a>
         </p>

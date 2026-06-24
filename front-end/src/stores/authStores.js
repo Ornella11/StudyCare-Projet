@@ -2,31 +2,24 @@ import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
-    user: null,          
-    userRole: null, 
-    isAuthenticated: false
+    user: JSON.parse(localStorage.getItem('user')) || null
   }),
 
-  actions: {
-    // Connexion simulée sans le Back-end)
-    login(email, password) {
-      this.isAuthenticated = true
-      this.user = { email }
+  getters: {
+    isAuthenticated: (state) => !!state.user,
+    userRole: (state) => state.user?.role || null
+  },
 
-      if (email.includes('admin')) {
-        this.userRole = 'Administrateur'
-      } else if (email.includes('teacher') || email.includes('prof')) {
-        this.userRole = 'Enseignant'
-      } else {
-        this.userRole = 'Étudiant'
-      }
-      
-      return this.userRole
+  actions: {
+    setUser(user) {
+      this.user = user
+      localStorage.setItem('user', JSON.stringify(user))
     },
+
     logout() {
       this.user = null
       this.userRole = null
-      this.isAuthenticated = false
+      this.isAuthenticated =""
     },
 
     resetPassword(email) {
