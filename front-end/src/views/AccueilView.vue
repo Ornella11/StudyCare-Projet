@@ -79,156 +79,198 @@ const naviguerVersConnexion = () => {
 </template>
 
 <style scoped>
-/* Css temporaire */
 .home-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #333;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
 }
 
 .hero-section {
   text-align: center;
   padding: 60px 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  border-radius: 16px;
-  margin-bottom: 40px;
+  background-color: #f8f9fa; 
+  border-radius: 12px;
+  margin-bottom: 20px;
 }
+
 h1 {
-  font-size: 2.8rem;
+  font-size: 2.6rem;
+  font-weight: 800;
   margin-bottom: 15px;
-  color: #1e272e;
+  color: #212529;
 }
+
 .brand-text {
-  color: #28387b;
-  font-weight: bold;
+  color: #d97736; 
+  font-style: italic;
 }
+
 .hero-subtitle {
-  font-size: 1.2rem;
-  color: #57606f;
-  max-width: 700px;
+  font-size: 1.15rem;
+  color: #495057;
+  max-width: 650px;
   margin: 0 auto 30px auto;
   line-height: 1.6;
 }
+
 .btn-cta {
-  padding: 14px 30px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  padding: 12px 32px;
+  font-size: 1rem;
+  font-weight: 600;
   color: white;
-  background-color: #28387b;
+  background-color: #d97736; 
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.2s;
+  transition: background-color 0.2s, transform 0.1s;
 }
+
 .btn-cta:hover {
-  background-color: #1b2654;
-  transform: translateY(-2px);
+  background-color: #c2652b;
 }
+
+.btn-cta:active {
+  transform: scale(0.98);
+}
+
 .welcome-box {
   background: white;
-  padding: 15px 25px;
-  border-radius: 8px;
+  padding: 20px 30px;
+  border-radius: 12px;
   display: inline-block;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  border: 1px solid #e9ecef;
 }
+
+.welcome-box strong {
+  color: #4477ce; 
+}
+
 .role-badge {
   display: inline-block;
-  margin-top: 5px;
-  padding: 4px 12px;
-  background-color: #e3ece9;
-  color: #10ac84;
-  font-weight: bold;
+  margin-top: 8px;
+  padding: 5px 16px;
+  background-color: #f1f3f5;
+  color: #d97736;
+  font-weight: 600;
   border-radius: 20px;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .separator {
   border: 0;
   height: 1px;
-  background: #dcdde1;
-  margin: 40px 0;
+  background-color: #e9ecef;
+  margin: 50px 0;
 }
 
-/* Features Section */
-.features-section h2, .roles-section h2 {
+.features-section h2, 
+.roles-section h2 {
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.8rem;
+  font-weight: 700;
   margin-bottom: 40px;
-  color: #2f3542;
+  color: #212529;
 }
+
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-}
-.feature-card {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  border: 1px solid #f1f2f6;
-  text-align: center;
-  transition: translateY 0.2s;
-}
-.feature-card:hover {
-  transform: translateY(-5px);
-}
-.icon {
-  font-size: 2.5rem;
-  margin-bottom: 15px;
-}
-.feature-card h3 {
-  margin-bottom: 12px;
-  color: #28387b;
-}
-.feature-card p {
-  color: #747d8c;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 15px;
-}
-.card-link {
-  color: #4a69bd;
-  text-decoration: none;
-  font-weight: bold;
+  gap: 25px;
 }
 
-/* Roles Section */
+.feature-card {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  text-align: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+  border-color: #4477ce; 
+  box-shadow: 0 4px 12px rgba(68, 119, 206, 0.05);
+}
+
+.icon {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+}
+
+.feature-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #212529;
+}
+
+.feature-card p {
+  color: #6c757d;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.card-link {
+  color: #4477ce; 
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.card-link:hover {
+  text-decoration: underline;
+}
+
 .roles-tabs {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
+
 .role-tab-card {
-  background-color: #f8f9fa;
-  padding: 20px;
-  border-radius: 8px;
-  border-left: 4px solid #ced6e0;
+  background-color: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  border-top: 4px solid #dee2e6;
+  transition: all 0.2s ease;
 }
+
 .role-tab-card h4 {
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 1.1rem;
-  color: #2f3542;
+  font-weight: 600;
+  color: #212529;
 }
+
 .role-tab-card p {
   font-size: 0.9rem;
-  color: #57606f;
-  line-height: 1.4;
+  color: #6c757d;
+  line-height: 1.5;
 }
-/* Si le rôle correspond à l'utilisateur connecté, on l'illumine en bleu */
+
 .role-tab-card.highlight {
-  border-left-color: #28387b;
-  background-color: #edf2fa;
+  border-top-color: #4477ce;
+  background-color: #f8fafc;
+  border-left: 1px solid #e9ecef;
+  border-right: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
 }
+
 .card-link-admin {
   display: inline-block;
-  margin-top: 10px;
-  color: #ee5253;
+  margin-top: 15px;
+  color: #d97736;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 0.9rem;
+}
+
+.card-link-admin:hover {
+  text-decoration: underline;
 }
 </style>
