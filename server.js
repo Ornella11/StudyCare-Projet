@@ -3,6 +3,9 @@ require('dotenv').config()
 
 const express = require('express')
 const cors = require('cors')
+const routes = require('./back-end/routes/routes')
+const notesRoutes = require('./back-end/routes/notesRoutes')
+
 
 const app = express()
 
@@ -25,8 +28,20 @@ app.post('/api/login', async (req, res) => {
 
   try {
     const [rows] = await db.query(
-      'SELECT * FROM utilisateurs WHERE email = ?',
+      `SELECT
+        u.id_utilisateur,
+        u.nom,
+        u.prenom,
+        u.email,
+        u.mot_de_passe,
+        u.role,
+        e.id_etudiant
+      FROM utilisateurs u
+      LEFT JOIN etudiants e
+        ON e.id_utilisateur = u.id_utilisateur
+      WHERE u.email = ?`,
       [email]
+    
     )
 
     if (rows.length === 0) {
@@ -39,13 +54,14 @@ app.post('/api/login', async (req, res) => {
       return res.status(401).json({ message: 'Mot de passe incorrect' })
     }
 
-    res.json({
-      id: utilisateur.id_utilisateur,
-      nom: utilisateur.nom,
-      prenom: utilisateur.prenom,
-      email: utilisateur.email,
-      role: utilisateur.role
-    })
+   res.json({
+  id: utilisateur.id_utilisateur,
+  id_etudiant: utilisateur.id_etudiant,
+  nom: utilisateur.nom,
+  prenom: utilisateur.prenom,
+  email: utilisateur.email,
+  role: utilisateur.role
+})
 
   } catch (error) {
     console.error(error)
@@ -53,6 +69,10 @@ app.post('/api/login', async (req, res) => {
   }
 })
 
+
+app.use('/api/notes', notesRoutes)
+
 app.listen(process.env.PORT, () => {
   console.log(`Serveur démarré sur le port ${process.env.PORT}`)
 })
+

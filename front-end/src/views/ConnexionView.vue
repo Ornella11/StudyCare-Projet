@@ -31,7 +31,8 @@ const handleLogin = async () => {
       return
     }
 
-    authStore.setUser(data)
+console.log('LOGIN DATA:', data)
+authStore.setUser(data)
 
     if (data.role === 'Administrateur') {
       router.push('/admin')

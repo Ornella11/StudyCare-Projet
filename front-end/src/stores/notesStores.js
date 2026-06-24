@@ -1,46 +1,56 @@
 import { defineStore } from 'pinia'
-import { mockSemestres } from '../mocks/notesMock.js'
 
 export const useNotesStore = defineStore('notes', {
   state: () => ({
-    allSemestres: mockSemestres,
-    semestreActuel: 1
+    semestreActuel: 1,
+    unitesEnseignement: []
   }),
 
   getters: {
-    unitesEnseignementActuelles: (state) => {
-      return state.allSemestres[state.semestreActuel] || []
-    },
+    unitesEnseignementActuelles: (state) =>
+      state.unitesEnseignement.filter(ue => ue.semestre === state.semestreActuel),
 
-    moyenneGenerale: (state) => {
-      let totalMoyennesUE = 0
-      const ues = state.unitesEnseignementActuelles
-      let nombreUE = ues.length
+    moyenneGenerale() {
+      let total = 0
+      let coefTotal = 0
 
-      if (nombreUE === 0) return 0
-
-      ues.forEach(ue => {
-        totalMoyennesUE += Number(state.calculerMoyenneUE(ue))
+      this.unitesEnseignementActuelles.forEach(ue => {
+        ue.matieres.forEach(m => {
+          total += Number(m.note) * Number(m.coef)
+          coefTotal += Number(m.coef)
+        })
       })
 
-      return (totalMoyennesUE / nombreUE).toFixed(2)
+      return coefTotal ? (total / coefTotal).toFixed(2) : '0.00'
     }
   },
 
   actions: {
-    setSemestre(numeroSemestre) {
-      this.semestreActuel = numeroSemestre
+    setSemestre(semestre) {
+      this.semestreActuel = semestre
     },
-    
+
     calculerMoyenneUE(ue) {
-      if (!ue.matieres || ue.matieres.length === 0) return 0
-      let totalPoints = 0
-      let totalCoefficients = 0
-      ue.matieres.forEach(matiere => {
-        totalPoints += matiere.note * matiere.coef
-        totalCoefficients += matiere.coef
+      let total = 0
+      let coefTotal = 0
+
+      ue.matieres.forEach(m => {
+        total += Number(m.note) * Number(m.coef)
+        coefTotal += Number(m.coef)
       })
-      return (totalPoints / totalCoefficients).toFixed(2)
+
+      return coefTotal ? (total / coefTotal).toFixed(2) : '0.00'
+    },
+
+    async chargerNotes(idEtudiant) {
+      console.log('Appel notes pour étudiant :', idEtudiant)
+
+      const response = await fetch(`http://localhost:3000/api/notes/${idEtudiant}`)
+      const data = await response.json()
+
+      console.log('Données reçues :', data)
+
+      this.unitesEnseignement = data
     }
   }
 })

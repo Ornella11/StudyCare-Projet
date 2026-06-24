@@ -9,22 +9,22 @@ import AdminView from '@/views/AdminView.vue'
 const routes = [
   { path: '/', component: AccueilView },
   { path: '/connexion', component: ConnexionView },
-  
-  { 
-    path: '/notes', 
-    component: NotesView, 
-    meta: { requiresAuth: true, rolesAutorises: ['Étudiant', 'Enseignant', 'Administrateur'] } 
+
+  {
+    path: '/notes',
+    component: NotesView,
+    meta: { requiresAuth: true, rolesAutorises: ['Étudiant', 'Enseignant', 'Administrateur'] }
   },
-  { 
-    path: '/dashboard', 
-    component: DashboardView, 
-    meta: { requiresAuth: true, rolesAutorises: ['Étudiant', 'Enseignant', 'Administrateur'] } 
+  {
+    path: '/dashboard',
+    component: DashboardView,
+    meta: { requiresAuth: true, rolesAutorises: ['Étudiant', 'Enseignant', 'Administrateur'] }
   },
-  
-  { 
-    path: '/admin', 
-    component: AdminView, 
-    meta: { requiresAuth: true, rolesAutorises: ['Administrateur'] } 
+
+  {
+    path: '/admin',
+    component: AdminView,
+    meta: { requiresAuth: true, rolesAutorises: ['Administrateur'] }
   }
 ]
 
@@ -32,6 +32,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 })
+
 
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
@@ -43,7 +44,7 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.rolesAutorises && !to.meta.rolesAutorises.includes(authStore.userRole)) {
     alert("Accès refusé : Vous n'avez pas les droits nécessaires.")
-    return next('/') 
+    return next('/')
   }
   next()
 })
