@@ -260,3 +260,215 @@ onMounted(chargerDonnees)
     </table>
   </div>
 </template>
+
+<style scoped>
+div {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  font-family: system-ui, -apple-system, sans-serif;
+  color: #212529;
+  background-color: #ffffff;
+}
+
+h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #212529;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 15px;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  color: #212529;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  background-color: #f8f9fa;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+form input, 
+form select {
+  flex: 1;
+  min-width: 180px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  outline: none;
+  background-color: #ffffff;
+  color: #212529;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+form input:focus, 
+form select:focus {
+  border-color: #4477ce;
+  box-shadow: 0 0 0 3px rgba(68, 119, 206, 0.1);
+}
+
+form button {
+  padding: 12px 24px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #d97736;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+form button:hover {
+  background-color: #c2652b;
+}
+
+form button:active {
+  transform: scale(0.98);
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #e9ecef;
+  background-color: #ffffff;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+li button {
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #ee5253;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+li button:hover {
+  background-color: #d63031;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.01);
+  margin-top: 15px;
+}
+
+th {
+  background-color: #f8f9fa;
+  color: #495057;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: left;
+  padding: 16px 20px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+td {
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  color: #212529;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background-color: #fdfdfd;
+}
+
+td input[type="number"] {
+  width: 70px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  text-align: center;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s;
+}
+
+td input[type="number"]:focus {
+  border-color: #4477ce;
+}
+
+td button {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 8px;
+  transition: background-color 0.2s;
+}
+
+td button:first-of-type {
+  background-color: #4477ce;
+}
+
+td button:first-of-type:hover {
+  background-color: #335ca3;
+}
+
+td button:last-of-type {
+  background-color: #ee5253;
+  margin-right: 0;
+}
+
+td button:last-of-type:hover {
+  background-color: #d63031;
+}
+
+td button:active {
+  transform: scale(0.98);
+}
+</style>

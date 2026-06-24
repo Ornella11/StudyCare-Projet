@@ -135,6 +135,69 @@ h1 {
   color: #212529;
 }
 
+h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  color: #212529;
+}
+
+form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  background-color: #f8f9fa;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  margin-bottom: 40px;
+  align-items: end;
+}
+
+form input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  outline: none;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+form input:focus {
+  border-color: #4477ce;
+  box-shadow: 0 0 0 3px rgba(68, 119, 206, 0.1);
+}
+
+form input[type="number"] {
+  width: 100%;
+  text-align: left;
+}
+
+form button[type="submit"] {
+  padding: 11px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #d97736;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+form button[type="submit"]:hover {
+  background-color: #c2652b;
+}
+
+form button[type="submit"]:active {
+  transform: scale(0.98);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -171,7 +234,7 @@ tr:hover td {
   background-color: #fdfdfd;
 }
 
-input[type="number"] {
+td input[type="number"] {
   width: 70px;
   padding: 8px 10px;
   font-size: 0.95rem;
@@ -184,12 +247,12 @@ input[type="number"] {
   transition: border-color 0.2s;
 }
 
-input[type="number"]:focus {
+td input[type="number"]:focus {
   border-color: #4477ce;
   box-shadow: 0 0 0 3px rgba(68, 119, 206, 0.1);
 }
 
-button {
+td button {
   padding: 8px 16px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -201,11 +264,11 @@ button {
   transition: background-color 0.2s;
 }
 
-button:hover {
+td button:hover {
   background-color: #335ca3;
 }
 
-button:active {
+td button:active {
   transform: scale(0.98);
 }
 </style>
