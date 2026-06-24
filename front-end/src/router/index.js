@@ -5,6 +5,7 @@ import ConnexionView from '@/views/ConnexionView.vue'
 import NotesView from '@/views/NotesView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import AdminView from '@/views/AdminView.vue'
+import EnseignantView from '@/views/EnseignantView.vue'
 
 const routes = [
   { path: '/', component: AccueilView },
@@ -25,7 +26,12 @@ const routes = [
     path: '/admin',
     component: AdminView,
     meta: { requiresAuth: true, rolesAutorises: ['Administrateur'] }
-  }
+  },
+  {
+  path: '/enseignant',
+  component: EnseignantView,
+  meta: { requiresAuth: true, rolesAutorises: ['Enseignant', 'Administrateur'] }
+}
 ]
 
 const router = createRouter({

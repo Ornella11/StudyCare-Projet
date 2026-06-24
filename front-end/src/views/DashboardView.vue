@@ -2,7 +2,7 @@
 import { computed, onMounted } from 'vue'
 import { useNotesStore } from '@/stores/notesStores.js'
 import { useAuthStore } from '@/stores/authStores.js'
-import { Bar, Line, Doughnut } from 'vue-chartjs'
+import { Bar, Doughnut } from 'vue-chartjs'
 import {
   Chart as ChartJS, Title, Tooltip, Legend,
   BarElement, CategoryScale, LinearScale,

@@ -10,8 +10,27 @@ const authStore = useAuthStore()
     <router-link v-if="!authStore.isAuthenticated" to="/connexion">Connexion</router-link>
 
     <template v-if="authStore.isAuthenticated">
-      <router-link to="/notes">Mes Notes</router-link>
-      <router-link to="/dashboard">Dashboard</router-link>
+      <router-link
+        v-if="authStore.userRole === 'Étudiant'"
+        to="/notes"
+      >
+        Mes Notes
+      </router-link>
+
+      <router-link
+        v-else-if="authStore.userRole === 'Enseignant'"
+        to="/enseignant"
+      >
+        Gérer les notes
+      </router-link>
+
+      <router-link
+        v-else-if="authStore.userRole === 'Administrateur'"
+        to="/admin"
+      >
+        Administration
+      </router-link>
+    <router-link to="/dashboard">Dashboard</router-link>
     </template>
 
     <router-link v-if="authStore.userRole === 'Administrateur'" to="/admin">Gestion Utilisateurs</router-link>
