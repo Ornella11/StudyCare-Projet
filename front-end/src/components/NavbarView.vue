@@ -12,7 +12,7 @@ const authStore = useAuthStore()
     <div class="navbar-links">
       <router-link to="/" class="nav-link">Accueil</router-link>
 
-      <template v-if="authStore.isAuthenticated">
+      <template v-if="authStore.isAuthenticated && authStore.userRole === 'Étudiant'">
         <router-link to="/notes" class="nav-link">Mes notes</router-link>
         <router-link to="/dashboard" class="nav-link">Mes statistiques</router-link>
       </template>
