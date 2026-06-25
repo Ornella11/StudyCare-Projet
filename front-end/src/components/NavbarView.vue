@@ -1,6 +1,13 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/authStores.js'
 const authStore = useAuthStore()
+
+const router = useRouter()
+const deconnexion = () => {
+  authStore.logout()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -40,7 +47,7 @@ const authStore = useAuthStore()
         Sign in
       </router-link>
 
-      <button v-if="authStore.isAuthenticated" @click="authStore.logout()" class="btn-auth">
+      <button v-if="authStore.isAuthenticated"  @click="deconnexion" class="btn-auth">
         Déconnexion ({{ authStore.userRole }})
       </button>
     </div>
