@@ -16,12 +16,11 @@ const db = mysql.createConnection({
  
 db.connect(err => {
   if (err) throw err;
-  console.log('Connecté à la base de données MySQL CyberShield');
+  console.log('Connecté à la base de données MySQL CyberShield 🛡️');
 });
  
 const SECRET_KEY = 'votre_cle_secrete_super_secure';
  
-// --- MIDDLEWARE DE VÉRIFICATION JWT ---
 const verifierToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -35,7 +34,6 @@ const verifierToken = (req, res, next) => {
   });
 };
  
-// --- AUTHENTIFICATION ---
 app.post('/api/auth/login', (req, res) => {
   const { email, password } = req.body;
  
@@ -45,7 +43,6 @@ app.post('/api/auth/login', (req, res) => {
  
     const utilisateur = results[0];
  
-    // Comparaison basique en texte clair (à remplacer par bcrypt.compare si haché)
     if (password !== utilisateur.mot_de_passe) {
       return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
@@ -68,7 +65,6 @@ app.post('/api/auth/login', (req, res) => {
   });
 });
  
-// --- ENTREPRISE ---
 app.get('/api/entreprise', (req, res) => {
   db.query('SELECT * FROM entreprise LIMIT 1', (err, results) => {
     if (err) return res.status(500).json(err);
@@ -88,7 +84,6 @@ app.put('/api/entreprise', verifierToken, (req, res) => {
   );
 });
  
-// --- ACTIFS (CRUD SÉCURISÉ) ---
 app.get('/api/actifs', verifierToken, (req, res) => {
   db.query('SELECT * FROM actifs', (err, results) => {
     if (err) return res.status(500).json(err);
@@ -121,7 +116,6 @@ app.delete('/api/actifs/:id', verifierToken, (req, res) => {
   });
 });
  
-// --- VULNÉRABILITÉS (SÉCURISÉ) ---
 app.get('/api/vulnerabilites', verifierToken, (req, res) => {
   db.query('SELECT v.*, a.nom_actif FROM vulnerabilites v JOIN actifs a ON v.id_actif = a.id_actif', (err, results) => {
     if (err) return res.status(500).json(err);
@@ -145,39 +139,72 @@ app.delete('/api/vulnerabilites/:id', verifierToken, (req, res) => {
   });
 });
  
-// --- STATS & MOTEUR DE RISQUE ---
-app.get('/api/dashboard/stats', (req, res) => {
-  db.query('SELECT COUNT(*) as totalActifs FROM actifs', (err, actRes) => {
+app.post('/api/risk/calculate', verifierToken, (req, res) => {
+  db.query('SELECT * FROM entreprise LIMIT 1', (err, entRes) => {
     if (err) return res.status(500).json(err);
-    db.query('SELECT * FROM vulnerabilites', (err, vulnRes) => {
+    const entreprise = entRes[0] || { serveurs: 0, postes_clients: 0 };
+ 
+    db.query('SELECT * FROM actifs', (err, actRes) => {
       if (err) return res.status(500).json(err);
-      db.query('SELECT COUNT(*) as totalExpo FROM actifs WHERE exposition_internet = 1', (err, expoRes) => {
+      
+      db.query('SELECT * FROM vulnerabilites', (err, vulnRes) => {
         if (err) return res.status(500).json(err);
  
-        const totalActifs = actRes[0].totalActifs;
+        const totalActifs = actRes.length;
         const totalVulns = vulnRes.length;
-        const totalExposes = expoRes[0].totalExpo;
+        const actifsExposes = actRes.filter(a => a.exposition_internet === 1).length;
  
-        let scorePoints = (totalActifs * 1) + (totalExposes * 3);
+        let scoreVuln = 0;
+        let scoreExposition = 0;
+        let scoreTailleSI = 0;
+ 
         vulnRes.forEach(v => {
-          if (v.criticite === 'Élevé') scorePoints += 5;
-          if (v.criticite === 'Moyen') scorePoints += 3;
-          if (v.criticite === 'Faible') scorePoints += 1;
+          if (v.criticite === 'Faible') scoreVuln += 2;
+          else if (v.criticite === 'Moyen') scoreVuln += 5;
+          else if (v.criticite === 'Élevé') scoreVuln += 10;
         });
+        if (scoreVuln > 50) scoreVuln = 50;
+ 
+        if (totalActifs > 0) {
+          const ratioExposition = actifsExposes / totalActifs;
+          scoreExposition = Math.round(ratioExposition * 30);
+        }
+ 
+        const totalEquipements = (entreprise.serveurs || 0) + (entreprise.postes_clients || 0);
+        if (totalEquipements > 100) scoreTailleSI = 20;
+        else if (totalEquipements > 50) scoreTailleSI = 15;
+        else if (totalEquipements > 10) scoreTailleSI = 10;
+        else scoreTailleSI = 5;
+ 
+        const scoreGlobal = scoreVuln + scoreExposition + scoreTailleSI;
  
         let niveauRisque = 'Faible';
-        if (scorePoints > 10 && scorePoints <= 25) niveauRisque = 'Moyen';
-        if (scorePoints > 25) niveauRisque = 'Élevé';
+        let couleurRisque = '#2e7d32'; 
+ 
+        if (scoreGlobal > 65) {
+          niveauRisque = 'Élevé';
+          couleurRisque = '#c62828';
+        } else if (scoreGlobal >= 35) {
+          niveauRisque = 'Moyen';
+          couleurRisque = '#ef6c00'; 
+        }
  
         res.json({
           totalActifs,
           totalVulnerabilites: totalVulns,
-          scoreRisqueGlobal: scorePoints,
-          niveauRisque
+          actifsExposes,
+          scoreRisqueGlobal: scoreGlobal,
+          niveauRisque,
+          couleurRisque,
+          details: {
+            pointsVuln: scoreVuln,
+            pointsExpo: scoreExposition,
+            pointsSI: scoreTailleSI
+          }
         });
       });
     });
   });
 });
  
-app.listen(3000, () => console.log('Serveur CyberShield écoute sur le port 3000'));
+app.listen(3000, () => console.log('Serveur CyberShield opérationnel sur le port 3000 🚀'));

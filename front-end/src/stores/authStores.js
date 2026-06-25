@@ -16,11 +16,9 @@ export const useAuthStore = defineStore('auth', () => {
     const data = await res.json()
     if (!res.ok) throw new Error(data.message || 'Identifiants incorrects')
 
-    // Sauvegarde dans le store
     token.value = data.token
     user.value = data.user
 
-    // Sauvegarde locale pour le rafraîchissement de la page
     localStorage.setItem('user_token', data.token)
     localStorage.setItem('user_info', JSON.stringify(data.user))
   }

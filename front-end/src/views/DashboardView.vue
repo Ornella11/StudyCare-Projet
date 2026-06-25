@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { useCyberStore } from '@/stores/cyberStores.js'
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
@@ -12,13 +12,24 @@ const formEntreprise = ref({})
 
 onMounted(async () => {
   await store.chargerTout()
-  formEntreprise.value = { ...store.entreprise }
 })
+
+watch(() => store.entreprise, (nouvellesInfos) => {
+  if (nouvellesInfos) {
+    formEntreprise.value = { ...nouvellesInfos }
+  }
+}, { immediate: true })
 
 const sauvegarderEntreprise = async () => {
   await store.modifierEntreprise(formEntreprise.value)
   modeEdition.value = false
 }
+
+const classeRisque = computed(() => {
+  if (!store.stats.niveauRisque) return 'status-faible'
+  const niveau = store.stats.niveauRisque.toLowerCase()
+  return niveau === 'élevé' ? 'status-eleve' : `status-${niveau}`
+})
 
 const chartData = computed(() => {
   const types = ['Serveur Web', 'Base de données', 'Poste utilisateur', 'Routeur', 'Pare-feu', 'Application métier']
@@ -43,60 +54,60 @@ const chartOptions = {
 </script>
 
 <template>
-<div class="container">
-<h1>Dashboard de CyberSécurité 🛡️</h1>
+  <div class="container">
+    <h1>Dashboard de CyberSécurité 🛡️</h1>
 
     <div class="card bg-light">
-<div class="header-box">
-<h2>Fiche descriptive de l'Entreprise</h2>
-<button @click="modeEdition = !modeEdition" class="btn-secondary">
+      <div class="header-box">
+        <h2>Fiche descriptive de l'Entreprise</h2>
+        <button @click="modeEdition = !modeEdition" class="btn-secondary">
           {{ modeEdition ? 'Annuler' : 'Modifier les infos' }}
-</button>
-</div>
+        </button>
+      </div>
 
       <div v-if="!modeEdition" class="info-grid">
-<p><strong>Nom :</strong> {{ store.entreprise.nom }}</p>
-<p><strong>Secteur :</strong> {{ store.entreprise.secteur }}</p>
-<p><strong>Employés :</strong> {{ store.entreprise.employes }}</p>
-<p><strong>Serveurs :</strong> {{ store.entreprise.serveurs }}</p>
-<p><strong>Postes clients :</strong> {{ store.entreprise.postes_clients }}</p>
-<p><strong>Services exposés :</strong> {{ store.entreprise.services_exposes }}</p>
-</div>
+        <p><strong>Nom :</strong> {{ store.entreprise.nom || 'Non défini' }}</p>
+        <p><strong>Secteur :</strong> {{ store.entreprise.secteur || 'Non défini' }}</p>
+        <p><strong>Employés :</strong> {{ store.entreprise.employes || 0 }}</p>
+        <p><strong>Serveurs :</strong> {{ store.entreprise.serveurs || 0 }}</p>
+        <p><strong>Postes clients :</strong> {{ store.entreprise.postes_clients || 0 }}</p>
+        <p><strong>Services exposés :</strong> {{ store.entreprise.services_exposes || 'Aucun' }}</p>
+      </div>
 
       <form v-else @submit.prevent="sauvegarderEntreprise" class="form-inline">
-<input v-model="formEntreprise.nom" placeholder="Nom" required />
-<input v-model="formEntreprise.secteur" placeholder="Secteur" required />
-<input v-model.number="formEntreprise.employes" type="number" placeholder="Employés" required />
-<input v-model.number="formEntreprise.serveurs" type="number" placeholder="Serveurs" required />
-<input v-model.number="formEntreprise.postes_clients" type="number" placeholder="Postes" required />
-<input v-model="formEntreprise.services_exposes" placeholder="Services exposés" required />
-<button type="submit" class="btn-primary">Enregistrer</button>
-</form>
-</div>
+        <input v-model="formEntreprise.nom" placeholder="Nom" required />
+        <input v-model="formEntreprise.secteur" placeholder="Secteur" required />
+        <input v-model.number="formEntreprise.employes" type="number" placeholder="Employés" required />
+        <input v-model.number="formEntreprise.serveurs" type="number" placeholder="Serveurs" required />
+        <input v-model.number="formEntreprise.postes_clients" type="number" placeholder="Postes" required />
+        <input v-model="formEntreprise.services_exposes" placeholder="Services exposés" required />
+        <button type="submit" class="btn-primary">Enregistrer</button>
+      </form>
+    </div>
 
     <div class="kpi-grid">
-<div class="kpi-card">
-<h3>Total Actifs</h3>
-<p class="kpi-value">{{ store.stats.totalActifs }}</p>
-</div>
-<div class="kpi-card">
-<h3>Total Vulnérabilités</h3>
-<p class="kpi-value color-orange">{{ store.stats.totalVulnerabilites }}</p>
-</div>
-<div class="kpi-card" :class="'status-' + store.stats.niveauRisque.toLowerCase()">
-<h3>Niveau de Risque Cyber</h3>
-<p class="kpi-value uppercase">{{ store.stats.niveauRisque }}</p>
-<small>Score cumulé : {{ store.stats.scoreRisqueGlobal }} pts</small>
-</div>
-</div>
+      <div class="kpi-card">
+        <h3>Total Actifs</h3>
+        <p class="kpi-value">{{ store.stats.totalActifs || 0 }}</p>
+      </div>
+      <div class="kpi-card">
+        <h3>Total Vulnérabilités</h3>
+        <p class="kpi-value color-orange">{{ store.stats.totalVulnerabilites || 0 }}</p>
+      </div>
+      <div class="kpi-card" :class="classeRisque">
+        <h3>Niveau de Risque Cyber</h3>
+        <p class="kpi-value uppercase">{{ store.stats.niveauRisque || 'FAIBLE' }}</p>
+        <small>Score cumulé : {{ store.stats.scoreRisqueGlobal || 0 }} pts</small>
+      </div>
+    </div>
 
     <div class="chart-container">
-<h3>Répartition et cartographie des Actifs</h3>
-<div class="chart-wrapper">
-<Bar :data="chartData" :options="chartOptions" />
-</div>
-</div>
-</div>
+      <h3>Répartition et cartographie des Actifs</h3>
+      <div class="chart-wrapper">
+        <Bar :data="chartData" :options="chartOptions" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -115,12 +126,16 @@ h3 { font-size: 1.1rem; margin-bottom: 20px; }
 .kpi-value { font-size: 2rem; font-weight: 800; margin: 10px 0 0 0; color: #4477ce; }
 .color-orange { color: #d97736; }
 .uppercase { text-transform: uppercase; }
-.status-faible { background-color: #e3f2fd; border-color: #bbdefb; }
-.status-faible .kpi-value { color: #1e88e5; }
+
+.status-faible { background-color: #e8f5e9; border-color: #c8e6c9; }
+.status-faible .kpi-value { color: #2e7d32; }
+
 .status-moyen { background-color: #fff3e0; border-color: #ffe0b2; }
-.status-moyen .kpi-value { color: #f4511e; }
-.status-élevé { background-color: #ffebee; border-color: #ffcdd2; }
-.status-élevé .kpi-value { color: #e53935; }
+.status-moyen .kpi-value { color: #ef6c00; }
+
+.status-eleve { background-color: #ffebee; border-color: #ffcdd2; }
+.status-eleve .kpi-value { color: #c62828; }
+
 .chart-container { background: #ffffff; border: 1px solid #e9ecef; padding: 24px; border-radius: 12px; }
 .chart-wrapper { height: 300px; }
 .btn-primary { background: #4477ce; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }

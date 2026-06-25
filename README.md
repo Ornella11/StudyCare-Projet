@@ -1,37 +1,44 @@
-# StudyCare 🎓
+# CyberCare 🛡️ - Simulateur de Risque Cyber pour PME
 
-StudyCare est une application web de gestion pédagogique et de suivi des notes développée pour les étudiants, les enseignants et les administrateurs. Elle permet un suivi en temps réel des performances académiques à travers des tableaux de bord dynamiques et des outils d'administration simplifiés.
+CyberCare est une application web Fullstack de simulation et de gestion du risque cyber conçue spécifiquement pour les PME. Elle permet de modéliser une infrastructure d'entreprise, de cartographier ses actifs numériques (serveurs, postes clients, routeurs, etc.), d'identifier ses vulnérabilités et d'évaluer automatiquement son niveau de risque global grâce à un moteur d'analyse embarqué.
 
 ---
 
-## 🚀 Installation
+# 🚀 Installation
 
-### Prérequis
+## Prérequis
 
 * **Node.js** (version 16 ou supérieure)
 * **MySQL** / **MAMP** / **XAMPP** (avec phpMyAdmin)
 
-### 1. Clonage et configuration du projet
+## 1. Clonage et configuration du projet
 
 ```bash
-git clone <https://github.com/Ornella11/StudyCare-Projet.git>
-cd StudyCare
+git clone https://github.com/Ornella11/StudyCare-Projet.git
+cd CyberTwin
 ```
 
-### 2. Configuration de la base de données
+## 2. Configuration de la base de données
 
 1. Lancez votre serveur local MySQL (via XAMPP, MAMP ou WampServer).
-2. Ouvrez phpMyAdmin et créez une base de données nommée `studycare`.
-3. Importez le fichier `studycare.sql` situé à la racine du projet afin de charger la structure des tables et les données de test initiales.
+2. Ouvrez phpMyAdmin et créez une base de données nommée **cybershield**.
+3. Importez le fichier SQL de configuration situé à la racine du projet afin de charger la structure des tables :
 
-### 3. Installation des dépendances Back-end
+   * entreprise
+   * actifs
+   * vulnerabilites
+   * utilisateurs
+
+   ainsi que le jeu de données initial.
+
+## 3. Installation des dépendances Back-end (Node.js)
 
 ```bash
 cd backend
 npm install
 ```
 
-### 4. Installation des dépendances Front-end
+## 4. Installation des dépendances Front-end (Vue.js)
 
 ```bash
 cd frontend
@@ -40,11 +47,11 @@ npm install
 
 ---
 
-## 💻 Exécution
+# 💻 Exécution
 
 Pour faire fonctionner l'application, vous devez lancer simultanément le serveur Back-end et le serveur Front-end.
 
-### 1. Démarrer le Back-end (API)
+## 1. Démarrer le Back-end (API Express)
 
 ```bash
 cd backend
@@ -57,14 +64,14 @@ Le serveur démarre sur :
 http://localhost:3000
 ```
 
-### 2. Démarrer le Front-end (Vue.js)
+## 2. Démarrer le Front-end (Vue.js 3 / Vite)
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-L'application sera accessible sur l'URL locale fournie par Vite :
+L'application sera accessible sur :
 
 ```text
 http://localhost:5173
@@ -72,114 +79,203 @@ http://localhost:5173
 
 ---
 
+# 🛠️ Technologies utilisées
 
-## 🛠️ Technologies utilisées
-
-### Front-end
+## Front-end
 
 * HTML5
 * CSS3
 * JavaScript ES6+
-* Vue.js 3
-* Vue Router
-* Pinia
-* Axios / Fetch API
+* Vue.js 3 (Composition API)
+* Vue Router (Navigation Guards pour la sécurité des routes)
+* Pinia (Gestion de l'état global avec authStores et cyberStores)
+* Chart.js / vue-chartjs (Visualisation des données graphiques)
+* Fetch API (Communications asynchrones)
 
-### Back-end
+## Back-end
 
 * Node.js
 * Express.js
-* MySQL
+* MySQL2
+* JSON Web Tokens (JWT)
 
-### Architecture
+## Architecture
 
 * Architecture Frontend / Backend
-* API REST
+* API REST sécurisée
+* Authentification par jeton JWT
 
 ---
 
-## 👨‍🎓 Espace Étudiant
+# 📊 Fonctionnalités de l'application
 
-### Tableau de bord personnel
+## 🏢 1. Gestion du périmètre de l'entreprise
 
-* Visualisation de la moyenne générale.
-* Affichage du nombre total de crédits ECTS validés.
+### Modélisation sur-mesure
 
-### Graphiques de performance
+* Définition du nom de l'entreprise.
+* Définition du secteur d'activité.
+* Déclaration du nombre de collaborateurs.
 
-* Suivi des moyennes par Unité d'Enseignement (UE) sous forme de diagramme à barres.
-* Répartition détaillée des résultats par matière sous forme de graphique Doughnut.
+### Dimensionnement de l'infrastructure
 
-### Filtre par semestre
+* Nombre de serveurs physiques ou cloud.
+* Nombre de postes clients.
 
-* Consultation des résultats du Semestre 1.
-* Consultation des résultats du Semestre 2.
-* Mise à jour dynamique des statistiques et graphiques.
+### Surface d'attaque
 
----
+Déclaration des services critiques exposés sur Internet :
 
-## 👨‍🏫 Espace Enseignant
-
-### Suivi global de la promotion
-
-* Affichage des statistiques globales de la classe.
-* Visualisation des moyennes générales et des performances par UE.
-
-### Analyse individuelle
-
-* Sélection d'un étudiant via un menu déroulant.
-* Consultation de son évolution académique.
-* Visualisation détaillée des notes et résultats.
-
-### Gestion des notes
-
-* Ajout d'une nouvelle évaluation.
-* Modification en temps réel des notes existantes.
-* Suppression d'évaluations directement depuis l'interface.
+* VPN
+* Serveurs Web
+* Services métiers
+* Applications externes
 
 ---
 
-## 👨‍💼 Espace Administrateur
+## 🖥️ 2. Cartographie et gestion des actifs (CRUD)
 
-### Contrôle global des données
+### Inventaire des ressources
 
-* Accès aux statistiques complètes de la promotion.
-* Consultation des profils individuels des étudiants.
+Gestion centralisée des équipements et ressources du système d'information :
 
-### Gestion des modules
+* Serveur Web
+* Base de données
+* Poste utilisateur
+* Routeur
+* Pare-feu
+* Application métier
 
-* Création de nouveaux modules d'enseignement.
-* Association des modules à un semestre.
-* Suppression des modules existants.
+### Gestion CRUD complète
 
-### Gestion des matières
+* Création d'actifs
+* Consultation d'actifs
+* Modification d'actifs
+* Suppression d'actifs
 
-* Création de nouvelles matières.
-* Association dynamique à un module existant.
-* Attribution d'un enseignant responsable.
-* Définition du coefficient de la matière.
+### Analyse d'exposition
 
-### Modération des notes
+Chaque actif peut être marqué comme :
 
-* Attribution de nouvelles notes.
-* Modification des notes existantes.
-* Suppression des notes sur l'ensemble du système.
+* Exposé à Internet
+* Interne uniquement
 
----
-
-## 📈 Objectif du projet
-
-StudyCare vise à centraliser la gestion pédagogique d'un établissement d'enseignement en proposant une plateforme unique permettant :
-
-* Aux étudiants de suivre leurs résultats en temps réel.
-* Aux enseignants de gérer les évaluations et d'analyser les performances de leurs classes.
-* Aux administrateurs de superviser l'ensemble du système pédagogique.
+Cette information est utilisée dans le calcul du risque global.
 
 ---
 
-## 👥 Auteurs
+## ⚠️ 3. Registre des vulnérabilités
 
-Projet réalisé dans le cadre du module de Développement Web.
+### Gestion des vulnérabilités
 
-* Ornella MOTENGO BAUTI
-* Melek USTUN
+Association dynamique de vulnérabilités aux actifs existants.
+
+### Niveaux de criticité
+
+Chaque vulnérabilité possède un niveau :
+
+| Niveau | Score  |
+| ------ | ------ |
+| Faible | 2 pts  |
+| Moyen  | 5 pts  |
+| Élevé  | 10 pts |
+
+### Suivi des remédiations
+
+Possibilité de :
+
+* Marquer une vulnérabilité comme résolue.
+* Consulter les vulnérabilités actives.
+* Consulter l'historique des corrections.
+
+---
+
+## 🧮 4. Moteur de calcul automatique du risque
+
+CyberTwin intègre un algorithme d'évaluation qui calcule en temps réel un score de risque global sur 100 points.
+
+### Critères pris en compte
+
+#### Vulnérabilités actives
+
+* Faible = 2 points
+* Moyen = 5 points
+* Élevé = 10 points
+
+#### Densité d'exposition
+
+Ratio des actifs exposés sur Internet par rapport au nombre total d'actifs.
+
+#### Taille du système d'information
+
+* Nombre de collaborateurs
+* Nombre de serveurs
+* Nombre d'équipements
+
+### Résultat
+
+Génération automatique d'un indicateur visuel :
+
+🟢 Faible
+
+🟠 Moyen
+
+🔴 Élevé
+
+---
+
+## 📈 5. Tableau de bord dynamique
+
+### KPIs de sécurité
+
+Affichage des indicateurs principaux :
+
+* Nombre total d'actifs
+* Nombre de vulnérabilités
+* Nombre d'actifs exposés
+* Score de risque global
+
+### Visualisations graphiques
+
+Graphique en barres dynamique représentant :
+
+* La répartition des actifs par catégorie
+* La cartographie globale du système d'information
+
+Les données sont mises à jour automatiquement après chaque modification.
+
+---
+
+# 🔒 Sécurité et fonctionnalités avancées
+
+## Authentification JWT
+
+Le système protège les accès sensibles grâce à l'utilisation de JSON Web Tokens.
+
+### Fonctionnement
+
+* Authentification utilisateur
+* Génération d'un Token JWT
+* Transmission du Token dans l'en-tête Authorization
+
+```http
+Authorization: Bearer <token>
+```
+
+### Protection des routes
+
+Les routes sensibles de l'API REST nécessitent un Token valide :
+
+* Création d'actifs
+* Modification d'actifs
+* Gestion des vulnérabilités
+* Accès aux statistiques
+
+---
+
+# 👥 Auteurs
+
+Projet de binôme réalisé dans le cadre du module de Développement Fullstack (Vue.js / Node.js).
+
+### Ornella MOTENGO BAUTI
+### Melek USTUN

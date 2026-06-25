@@ -6,27 +6,39 @@ export const useCyberStore = defineStore('cyber', () => {
   const entreprise = ref({})
   const actifs = ref([])
   const vulnerabilites = ref([])
-  const stats = ref({ totalActifs: 0, totalVulnerabilites: 0, scoreRisqueGlobal: 0, niveauRisque: 'Faible' })
+  const stats = ref({ 
+    totalActifs: 0, 
+    totalVulnerabilites: 0, 
+    scoreRisqueGlobal: 0, 
+    niveauRisque: 'Faible',
+    couleurRisque: '#2e7d32',
+    actifsExposes: 0
+  })
 
-  // Fonction utilitaire pour récupérer les headers avec le Token JWT automatiquement
   const getHeaders = () => {
     const authStore = useAuthStore()
+    const token = authStore.token || localStorage.getItem('user_token')
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${authStore.token}`
+      'Authorization': `Bearer ${token}`
     }
   }
 
   const chargerTout = async () => {
     try {
       const headers = getHeaders()
-      // /api/entreprise et /api/dashboard/stats n'ont pas forcément besoin du token selon ton server.js,
-      // mais on leur passe les headers par sécurité et uniformité.
-      entreprise.value = await fetch('http://localhost:3000/api/entreprise').then(r => r.json())
-      stats.value = await fetch('http://localhost:3000/api/dashboard/stats').then(r => r.json())
-      // Ces deux-là requièrent obligatoirement le token !
+
+      entreprise.value = await fetch('http://localhost:3000/api/entreprise', { headers }).then(r => r.json())
+
       actifs.value = await fetch('http://localhost:3000/api/actifs', { headers }).then(r => r.json())
+
       vulnerabilites.value = await fetch('http://localhost:3000/api/vulnerabilites', { headers }).then(r => r.json())
+
+      stats.value = await fetch('http://localhost:3000/api/risk/calculate', { 
+        method: 'POST',
+        headers 
+      }).then(r => r.json())
+
     } catch (error) {
       console.error("Impossible de contacter le serveur lors du chargement :", error)
     }
@@ -47,7 +59,7 @@ export const useCyberStore = defineStore('cyber', () => {
       headers: getHeaders(),
       body: JSON.stringify(actif)
     })
-    await chargerTout() // Ne pas oublier de rafraîchir le dashboard après l'ajout !
+    await chargerTout()
   }
 
   const supprimerActif = async (id) => {
@@ -75,5 +87,16 @@ export const useCyberStore = defineStore('cyber', () => {
     await chargerTout()
   }
 
-  return { entreprise, actifs, vulnerabilites, stats, chargerTout, modifierEntreprise, ajouterActif, supprimerActif, ajouterVuln, supprimerVuln }
+  return { 
+    entreprise, 
+    actifs, 
+    vulnerabilites, 
+    stats, 
+    chargerTout, 
+    modifierEntreprise, 
+    ajouterActif, 
+    supprimerActif, 
+    ajouterVuln, 
+    supprimerVuln 
+  }
 })
