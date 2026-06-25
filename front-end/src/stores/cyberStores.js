@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { useAuthStore } from './authStores'
 
+const historique = ref([])
 export const useCyberStore = defineStore('cyber', () => {
   const entreprise = ref({})
   const actifs = ref([])
@@ -24,25 +25,25 @@ export const useCyberStore = defineStore('cyber', () => {
     }
   }
 
-  const chargerTout = async () => {
-    try {
-      const headers = getHeaders()
+const chargerTout = async () => {
+  try {
+    const headers = getHeaders()
 
-      entreprise.value = await fetch('http://localhost:3000/api/entreprise', { headers }).then(r => r.json())
+    entreprise.value = await fetch('http://localhost:3000/api/entreprise', { headers }).then(r => r.json())
+    actifs.value = await fetch('http://localhost:3000/api/actifs', { headers }).then(r => r.json())
 
-      actifs.value = await fetch('http://localhost:3000/api/actifs', { headers }).then(r => r.json())
+    vulnerabilites.value = await fetch('http://localhost:3000/api/vulnerabilites', { headers }).then(r => r.json())
 
-      vulnerabilites.value = await fetch('http://localhost:3000/api/vulnerabilites', { headers }).then(r => r.json())
+    stats.value = await fetch('http://localhost:3000/api/risk/calculate', { 
+      method: 'POST',
+      headers 
+    }).then(r => r.json())
+    historique.value = await fetch('http://localhost:3000/api/risk/history', { headers }).then(r => r.json())
 
-      stats.value = await fetch('http://localhost:3000/api/risk/calculate', { 
-        method: 'POST',
-        headers 
-      }).then(r => r.json())
-
-    } catch (error) {
-      console.error("Impossible de contacter le serveur lors du chargement :", error)
-    }
+  } catch (error) {
+    console.error("Erreur lors du chargement des données cyber :", error)
   }
+}
 
   const modifierEntreprise = async (infos) => {
     await fetch('http://localhost:3000/api/entreprise', {
@@ -97,6 +98,7 @@ export const useCyberStore = defineStore('cyber', () => {
     ajouterActif, 
     supprimerActif, 
     ajouterVuln, 
-    supprimerVuln 
+    supprimerVuln,
+    historique
   }
 })

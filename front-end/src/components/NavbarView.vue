@@ -23,6 +23,7 @@ const deconnexion = () => {
         <router-link to="/entreprise" class="nav-link">Mon Entreprise</router-link>
         <router-link to="/actifs" class="nav-link">Gestion des Actifs</router-link>
         <router-link to="/vulnerabilites" class="nav-link">Vulnérabilités</router-link>
+        <RouterLink to="/rapport" class="nav-link">Rapport</RouterLink>
       </template>
     </div>
 
@@ -65,7 +66,7 @@ const deconnexion = () => {
 }
 
 .blue-text {
-  color: #4477ce; /* Le bleu cybersécurité remplace le orange scolaire */
+  color: #4477ce;
 }
 
 .navbar-links {
@@ -84,7 +85,6 @@ const deconnexion = () => {
   transition: all 0.2s ease;
 }
 
-/* Style de l'onglet actif grâce à Vue Router */
 .navbar-links a.router-link-exact-active {
   background-color: #4477ce;
   color: #ffffff !important;
@@ -102,7 +102,7 @@ const deconnexion = () => {
 }
 
 .btn-auth {
-  background-color: #212529; /* Bouton plus sobre/pro */
+  background-color: #212529;
   color: #ffffff;
   border: none;
   padding: 10px 24px;

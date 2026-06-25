@@ -5,6 +5,7 @@ import EntrepriseView from '@/views/EntrepriseView.vue'
 import ActifsView from '@/views/ActifView.vue'
 import VulnerabilitesView from '@/views/VulnerabilitesView.vue'
 import ConnexionView from '@/views/ConnexionView.vue'
+import RapportView from '@/views/RapportView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -42,7 +43,13 @@ const router = createRouter({
     {
       path: '/:pathMatch(.*)*',
       redirect: '/'
-    }
+    },
+   {
+     path: '/rapport',
+     name: 'rapport',
+     component: RapportView,
+     meta: { requiertAuth: true }
+   }
   ]
 })
 

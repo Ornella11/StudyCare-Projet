@@ -138,6 +138,13 @@ app.delete('/api/vulnerabilites/:id', verifierToken, (req, res) => {
     res.json({ message: 'Vulnérabilité supprimée' });
   });
 });
+
+app.get('/api/risk/history', verifierToken, (req, res) => {
+  db.query('SELECT * FROM historique_risques ORDER BY date_analyse DESC', (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
  
 app.post('/api/risk/calculate', verifierToken, (req, res) => {
   db.query('SELECT * FROM entreprise LIMIT 1', (err, entRes) => {
@@ -188,23 +195,24 @@ app.post('/api/risk/calculate', verifierToken, (req, res) => {
           niveauRisque = 'Moyen';
           couleurRisque = '#ef6c00'; 
         }
+
+        const queryIns = 'INSERT INTO historique_risques (score, niveau, total_actifs, total_vulnerabilites) VALUES (?, ?, ?, ?)';
+        db.query(queryIns, [scoreGlobal, niveauRisque, totalActifs, totalVulns], (errIns) => {
+          if (errIns) console.error("Impossible de sauvegarder l'historique :", errIns);
  
-        res.json({
-          totalActifs,
-          totalVulnerabilites: totalVulns,
-          actifsExposes,
-          scoreRisqueGlobal: scoreGlobal,
-          niveauRisque,
-          couleurRisque,
-          details: {
-            pointsVuln: scoreVuln,
-            pointsExpo: scoreExposition,
-            pointsSI: scoreTailleSI
-          }
+          res.json({
+            totalActifs,
+            totalVulnerabilites: totalVulns,
+            actifsExposes,
+            scoreRisqueGlobal: scoreGlobal,
+            niveauRisque,
+            couleurRisque,
+            details: { pointsVuln: scoreVuln, pointsExpo: scoreExposition, pointsSI: scoreTailleSI }
+          });
         });
-      });
-    });
-  });
+      }); 
+    }); 
+  }); 
 });
  
 app.listen(3000, () => console.log('Serveur CyberShield opérationnel sur le port 3000 🚀'));

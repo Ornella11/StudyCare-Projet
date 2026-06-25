@@ -107,6 +107,35 @@ const chartOptions = {
         <Bar :data="chartData" :options="chartOptions" />
       </div>
     </div>
+
+    <div class="card history-container">
+  <h3>📜 Historique des Analyses de Risque</h3>
+  <table class="history-table">
+    <thead>
+      <tr>
+        <th>Date de l'analyse</th>
+        <th>Score global</th>
+        <th>Niveau de Risque</th>
+        <th>Actifs / Vulns</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="h in store.historique" :key="h.id_historique">
+        <td>{{ new Date(h.date_analyse).toLocaleString('fr-FR') }}</td>
+        <td><strong>{{ h.score }} / 100</strong></td>
+        <td>
+          <span class="badge-status" :class="h.niveau.toLowerCase() === 'élevé' ? 'b-eleve' : h.niveau.toLowerCase() === 'moyen' ? 'b-moyen' : 'b-faible'">
+            {{ h.niveau }}
+          </span>
+        </td>
+        <td>💻 {{ h.total_actifs }} actifs | ⚠️ {{ h.total_vulnerabilites }} failles</td>
+      </tr>
+      <tr v-if="store.historique.length === 0">
+        <td colspan="4" class="text-center">Aucune analyse enregistrée pour le moment.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
   </div>
 </template>
 
@@ -140,4 +169,12 @@ h3 { font-size: 1.1rem; margin-bottom: 20px; }
 .chart-wrapper { height: 300px; }
 .btn-primary { background: #4477ce; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
 .btn-secondary { background: #ffffff; color: #212529; border: 1px solid #dee2e6; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; }
+.history-container { margin-top: 30px; background: #fff; }
+.history-table { width: 100%; border-collapse: collapse; text-align: left; }
+.history-table th { padding: 12px; background: #f8f9fa; border-bottom: 2px solid #dee2e6; font-size: 0.9rem; }
+.history-table td { padding: 12px; border-bottom: 1px solid #dee2e6; font-size: 0.95rem; }
+.badge-status { padding: 4px 10px; border-radius: 4px; font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
+.b-faible { background: #e8f5e9; color: #2e7d32; }
+.b-moyen { background: #fff3e0; color: #ef6c00; }
+.b-eleve { background: #ffebee; color: #c62828; }
 </style>
