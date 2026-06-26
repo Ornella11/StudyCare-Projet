@@ -104,30 +104,28 @@ const handleModifier = async () => {
 </template>
 
 <style scoped>
-.container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; font-family: system-ui, sans-serif; }
-h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; color: #212529; }
-.subtitle { color: #6c757d; margin-bottom: 30px; font-size: 0.95rem; }
-h2 { font-size: 1.2rem; font-weight: 700; margin-top: 0; margin-bottom: 20px; color: #495057; }
+.container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; font-family: 'Courier New', Courier, monospace; color: #0a0f0d; }
+h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 5px; color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.2); text-transform: uppercase; letter-spacing: 1px; }
+.subtitle { color: #22aa55; margin-bottom: 30px; font-size: 0.95rem; text-transform: uppercase; }
+h2 { font-size: 1.2rem; font-weight: 700; margin-top: 0; margin-bottom: 20px; color: #0a0f0d; text-transform: uppercase; letter-spacing: 1px; }
 
-/* Grille des KPIs */
 .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 40px; }
-.stat-card { background: #ffffff; border: 1px solid #e9ecef; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
-.stat-card h3 { font-size: 0.9rem; color: #6c757d; margin: 0 0 10px 0; font-weight: 600; }
-.stat-value { font-size: 1.8rem; font-weight: 800; color: #4477ce; margin: 0 0 5px 0; }
-.stat-label { font-size: 0.8rem; color: #adb5bd; }
+.stat-card { background: #ffffff; border: 1px solid #114422; padding: 20px; border-radius: 2px; box-shadow: 3px 3px 0px rgba(17, 68, 34, 0.1); }
+.stat-card h3 { font-size: 0.9rem; color: #114422; margin: 0 0 10px 0; font-weight: 600; text-transform: uppercase; }
+.stat-value { font-size: 1.8rem; font-weight: 800; color: #00ff66; margin: 0 0 5px 0; }
+.stat-label { font-size: 0.8rem; color: #22aa55; text-transform: uppercase; }
 
-/* Formulaire */
-.card { background: #ffffff; border: 1px solid #e9ecef; padding: 30px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.01); }
-.edit-card { background: #f8f9fa; }
+.card { background: #ffffff; border: 2px solid #00ff66; padding: 30px; border-radius: 2px; box-shadow: 4px 4px 0px rgba(0, 255, 102, 0.1); }
+.edit-card { background: #f5fbf7; border: 2px solid #114422; box-shadow: 4px 4px 0px rgba(17, 68, 34, 0.1); }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px; }
 @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
 .full-width { grid-column: 1 / -1; }
 
 .input-group { display: flex; flex-direction: column; gap: 6px; }
-.input-group label { font-size: 0.85rem; font-weight: 600; color: #495057; }
-.input-group input { padding: 12px 14px; border: 1px solid #dee2e6; border-radius: 6px; background: #fff; font-size: 0.95rem; outline: none; }
-.input-group input:focus { border-color: #4477ce; box-shadow: 0 0 0 3px rgba(68,119,206,0.1); }
+.input-group label { font-size: 0.85rem; font-weight: 600; color: #0a0f0d; text-transform: uppercase; letter-spacing: 1px; }
+.input-group input { padding: 12px 14px; border: 1px solid #114422; border-radius: 2px; background: #fff; color: #0a0f0d; font-family: inherit; font-size: 0.95rem; outline: none; }
+.input-group input:focus { border-color: #00ff66; box-shadow: 0 0 8px rgba(0, 255, 102, 0.3); }
 
-.btn-submit { background: #4477ce; color: #fff; border: none; padding: 14px 28px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; font-size: 0.95rem; }
-.btn-submit:hover { background: #2f5bb5; }
+.btn-submit { background: #00ff66; color: #0a0f0d; border: none; padding: 14px 28px; border-radius: 2px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; }
+.btn-submit:hover { background: #33ff77; box-shadow: 0 0 10px rgba(0, 255, 102, 0.4); }
 </style>

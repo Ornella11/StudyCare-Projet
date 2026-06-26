@@ -119,42 +119,42 @@ const exporterPDF = () => {
 </template>
 
 <style scoped>
-.container { max-width: 900px; margin: 0 auto; padding: 40px 20px; font-family: system-ui, sans-serif; color: #212529; }
+.container { max-width: 900px; margin: 0 auto; padding: 40px 20px; font-family: 'Courier New', Courier, monospace; color: #0a0f0d; }
 .action-bar { display: flex; justify-content: flex-end; margin-bottom: 20px; }
-.btn-pdf { background: #212529; color: #fff; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
-.btn-pdf:hover { background: #495057; }
+.btn-pdf { background: #050a07; color: #00ff66; border: 1px solid #00ff66; padding: 12px 24px; border-radius: 2px; cursor: pointer; font-weight: 600; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+.btn-pdf:hover { background: #00ff66; color: #0a0f0d; box-shadow: 0 0 10px rgba(0, 255, 102, 0.4); }
 
 .report-header { position: relative; margin-bottom: 20px; }
-.badge-risque { position: absolute; top: 0; right: 0; color: #fff; padding: 6px 14px; font-weight: 700; border-radius: 4px; text-transform: uppercase; font-size: 0.85rem; }
-h1 { font-size: 2rem; margin: 0 0 5px 0; font-weight: 800; color: #1a1d20; }
-.date { color: #6c757d; margin: 0; font-size: 0.9rem; }
-hr { border: 0; border-top: 2px solid #dee2e6; margin: 25px 0; }
+.badge-risque { position: absolute; top: 0; right: 0; color: #fff; padding: 6px 14px; font-weight: 700; border-radius: 2px; text-transform: uppercase; font-size: 0.85rem; }
+h1 { font-size: 2rem; margin: 0 0 5px 0; font-weight: 800; color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.2); text-transform: uppercase; letter-spacing: 1px; }
+.date { color: #22aa55; margin: 0; font-size: 0.9rem; text-transform: uppercase; }
+hr { border: 0; border-top: 2px solid #00ff66; margin: 25px 0; }
 
-h2 { font-size: 1.3rem; border-left: 4px solid #212529; padding-left: 10px; margin-bottom: 20px; color: #1a1d20; }
+h2 { font-size: 1.3rem; border-left: 4px solid #00ff66; padding-left: 10px; margin-bottom: 20px; color: #0a0f0d; text-transform: uppercase; letter-spacing: 1px; }
 .report-section { margin-bottom: 40px; }
 
-.grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e9ecef; }
+.grid-info { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; background: #f5fbf7; padding: 20px; border-radius: 2px; border: 1px solid #114422; box-shadow: 3px 3px 0px rgba(17, 68, 34, 0.1); }
 .full-width { grid-column: 1 / -1; }
 
-.risk-summary-box { display: flex; align-items: center; gap: 30px; background: #f8f9fa; padding: 25px; border-radius: 8px; border: 1px solid #e9ecef; }
-.score-circle { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 90px; height: 90px; border: 6px solid #ced4da; border-radius: 50%; background: #fff; }
-.score-num { font-size: 1.8rem; font-weight: 800; line-height: 1; color: #1a1d20; }
-.score-max { font-size: 0.75rem; color: #6c757d; font-weight: 600; }
+.risk-summary-box { display: flex; align-items: center; gap: 30px; background: #f5fbf7; padding: 25px; border-radius: 2px; border: 2px solid #00ff66; box-shadow: 4px 4px 0px rgba(0, 255, 102, 0.1); }
+.score-circle { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 90px; height: 90px; border: 4px solid #114422; border-radius: 50%; background: #fff; }
+.score-num { font-size: 1.8rem; font-weight: 800; line-height: 1; color: #0a0f0d; }
+.score-max { font-size: 0.75rem; color: #22aa55; font-weight: 600; }
 .risk-text { flex: 1; }
-.risk-text p { margin: 0 0 8px 0; font-size: 1.05rem; }
-.risk-text .small-desc { margin: 0; font-size: 0.85rem; color: #6c757d; line-height: 1.4; }
+.risk-text p { margin: 0 0 8px 0; font-size: 1.05rem; font-weight: 600; text-transform: uppercase; }
+.risk-text .small-desc { margin: 0; font-size: 0.85rem; color: #114422; line-height: 1.4; }
 
 .report-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.report-table th { background: #212529; color: #fff; text-align: left; padding: 12px; font-size: 0.9rem; }
-.report-table td { padding: 12px; border-bottom: 1px solid #dee2e6; font-size: 0.95rem; }
+.report-table th { background: #051a0d; color: #00ff66; text-align: left; padding: 12px; font-size: 0.9rem; text-transform: uppercase; border-bottom: 2px solid #00ff66; }
+.report-table td { padding: 12px; border-bottom: 1px solid #114422; font-size: 0.95rem; }
 .font-bold { font-weight: 700; }
 .text-center { text-align: center; }
-.empty { color: #2e7d32; font-style: italic; background: #e8f5e9; }
+.empty { color: #2e7d32; font-style: italic; background: #e8f5e9; border: 1px solid #2e7d32; text-transform: uppercase; }
 
 .recs-list { display: flex; flex-direction: column; gap: 15px; }
-.rec-card { background: #ffffff; border: 1px solid #dee2e6; border-left: 5px solid #4477ce; padding: 15px 20px; border-radius: 0 8px 8px 0; }
-.rec-card h4 { margin: 0 0 6px 0; font-size: 1rem; color: #1a1d20; }
-.rec-card p { margin: 0; font-size: 0.9rem; color: #495057; line-height: 1.4; }
+.rec-card { background: #ffffff; border: 1px solid #114422; border-left: 5px solid #00ff66; padding: 15px 20px; border-radius: 0 2px 2px 0; box-shadow: 3px 3px 0px rgba(17, 68, 34, 0.05); }
+.rec-card h4 { margin: 0 0 6px 0; font-size: 1rem; color: #0a0f0d; text-transform: uppercase; letter-spacing: 0.5px; }
+.rec-card p { margin: 0; font-size: 0.9rem; color: #0a0f0d; line-height: 1.4; }
 
 @media print {
   nav, .no-print, .action-bar, header:not(.report-header) {
@@ -166,11 +166,29 @@ h2 { font-size: 1.3rem; border-left: 4px solid #212529; padding-left: 10px; marg
     margin: 0 !important;
     max-width: 100% !important;
     background: #fff !important;
+    color: #000 !important;
+    font-family: 'Courier New', Courier, monospace !important;
   }
 
   .grid-info, .risk-summary-box, .rec-card {
     background: #fff !important;
     border: 1px solid #000 !important;
+    box-shadow: none !important;
+  }
+
+  h1, .badge-risque {
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+
+  .report-table th {
+    background: #000 !important;
+    color: #fff !important;
+    border-bottom: 1px solid #000 !important;
+  }
+
+  .report-table td {
+    border-bottom: 1px solid #000 !important;
   }
 
   .page-break {

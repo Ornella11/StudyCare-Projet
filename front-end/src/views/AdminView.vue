@@ -90,23 +90,26 @@ const submitVuln = async () => {
 </template>
 
 <style scoped>
-.container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; font-family: system-ui, sans-serif; }
-h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 35px; }
-h2 { font-size: 1.2rem; font-weight: 700; margin-top: 30px; margin-bottom: 15px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; font-family: 'Courier New', Courier, monospace; color: #0a0f0d; }
+h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 35px; color: #00ff66; text-shadow: 0 0 5px rgba(0, 255, 102, 0.2); text-transform: uppercase; letter-spacing: 1px; }
+h2 { font-size: 1.2rem; font-weight: 700; margin-top: 30px; margin-bottom: 15px; color: #0a0f0d; text-transform: uppercase; letter-spacing: 1px; }
 .layout-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 40px; }
-.form-box { background: #f8f9fa; border: 1px solid #e9ecef; padding: 20px; border-radius: 10px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-.form-box input, .form-box select { padding: 10px 14px; font-size: 0.95rem; border: 1px solid #dee2e6; border-radius: 6px; background: #fff; outline: none; }
-.checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
-.btn-submit { background: #4477ce; color: #fff; border: none; padding: 12px; border-radius: 6px; font-weight: 600; cursor: pointer; }
-.btn-orange { background: #d97736; }
-.list-wrapper { border: 1px solid #e9ecef; border-radius: 10px; overflow: hidden; background: #fff; }
-.item-card { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #e9ecef; }
+.form-box { background: #f5fbf7; border: 2px solid #114422; padding: 20px; border-radius: 2px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; box-shadow: 4px 4px 0px rgba(17, 68, 34, 0.1); }
+.form-box input, .form-box select { padding: 10px 14px; font-size: 0.95rem; border: 1px solid #114422; border-radius: 2px; background: #fff; color: #0a0f0d; font-family: inherit; outline: none; }
+.form-box input:focus, .form-box select:focus { border-color: #00ff66; box-shadow: 0 0 8px rgba(0, 255, 102, 0.3); }
+.checkbox-label { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-transform: uppercase; color: #0a0f0d; }
+.btn-submit { background: #00ff66; color: #0a0f0d; border: none; padding: 12px; border-radius: 2px; font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; }
+.btn-submit:hover { background: #33ff77; box-shadow: 0 0 10px rgba(0, 255, 102, 0.4); }
+.btn-orange { background: #ef6c00; color: #fff; }
+.btn-orange:hover { background: #f57c00; box-shadow: 0 0 10px rgba(239, 108, 0, 0.4); }
+.list-wrapper { border: 2px solid #00ff66; border-radius: 2px; overflow: hidden; background: #fff; box-shadow: 4px 4px 0px rgba(0, 255, 102, 0.1); }
+.item-card { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid #114422; background: #fff; }
 .item-card:last-child { border-bottom: none; }
-.badge { display: inline-block; padding: 4px 8px; font-size: 0.75rem; font-weight: 700; background: #e9ecef; border-radius: 4px; margin-top: 6px; margin-right: 5px; }
-.bg-red { background: #ffebee; color: #c62828; }
-.crit-faible { background: #e8f5e9; color: #2e7d32; }
-.crit-moyen { background: #fff3e0; color: #ef6c00; }
-.crit-élevé { background: #ffebee; color: #c62828; }
-.btn-delete { background: none; border: 1px solid #dee2e6; color: #e53935; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
-.btn-delete:hover { background: #ffebee; border-color: #ffcdd2; }
+.badge { display: inline-block; padding: 4px 8px; font-size: 0.75rem; font-weight: 700; background: #e8f5e9; border-radius: 2px; margin-top: 6px; margin-right: 5px; text-transform: uppercase; }
+.bg-red { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.crit-faible { background: #e8f5e9; color: #2e7d32; border: 1px solid #2e7d32; }
+.crit-moyen { background: #fff3e0; color: #ef6c00; border: 1px solid #ef6c00; }
+.crit-élevé { background: #ffebee; color: #c62828; border: 1px solid #c62828; }
+.btn-delete { background: none; border: 1px solid #114422; color: #c62828; padding: 6px 12px; border-radius: 2px; cursor: pointer; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; font-family: inherit; transition: all 0.2s; }
+.btn-delete:hover { background: #c62828; color: #ffffff; border-color: #c62828; }
 </style>

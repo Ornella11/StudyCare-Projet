@@ -32,7 +32,6 @@ const handleLogin = async () => {
 
     await cyberStore.chargerTout()
 
-
     router.push('/')
 
   } catch (error) {
@@ -55,7 +54,7 @@ const handleResetPassword = () => {
 <template>
   <div class="auth-container">
     <div class="auth-card">
-      <h2>CyberCare 🛡️</h2>
+      <h2>CyberShield 🛡️</h2>
 
       <div v-if="mode === 'login'">
         <h3>Connexion</h3>
@@ -107,44 +106,47 @@ const handleResetPassword = () => {
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 80px);
-  background-color: #fafafa;
+  background-color: #0a0f0d;
   padding: 20px;
   box-sizing: border-box;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .auth-card {
-  background-color: #ffffff;
+  background-color: #0d1512;
   width: 100%;
   max-width: 420px;
   padding: 40px;
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  border-radius: 4px;
+  border: 1px solid #00ff66;
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
   box-sizing: border-box;
 }
 
 .auth-card h2 {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 2rem;
   font-weight: 800;
-  color: #4477ce;
+  color: #00ff66;
   margin-top: 0;
   margin-bottom: 25px;
+  text-shadow: 0 0 10px rgba(0, 255, 102, 0.5);
+  letter-spacing: 2px;
 }
 
 .auth-card h3 {
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
-  color: #212529;
+  color: #33ff77;
   margin-top: 0;
   margin-bottom: 20px;
   text-align: center;
+  text-transform: uppercase;
 }
 
 .info-text {
-  font-size: 0.9rem;
-  color: #6c757d;
+  font-size: 0.85rem;
+  color: #22aa55;
   text-align: center;
   line-height: 1.5;
   margin-bottom: 20px;
@@ -160,27 +162,29 @@ const handleResetPassword = () => {
 .input-group label {
   font-size: 0.85rem;
   font-weight: 600;
-  color: #495057;
+  color: #33ff77;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .input-group input {
   padding: 12px 16px;
   font-size: 0.95rem;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background-color: #ffffff;
-  color: #212529;
+  border: 1px solid #114422;
+  border-radius: 2px;
+  background-color: #050a07;
+  color: #00ff66;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input-group input:focus {
-  border-color: #4477ce;
-  box-shadow: 0 0 0 3px rgba(68, 119, 206, 0.1);
+  border-color: #00ff66;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
 }
 
 .input-group input::placeholder {
-  color: #adb5bd;
+  color: #115522;
 }
 
 .btn-primary {
@@ -188,17 +192,20 @@ const handleResetPassword = () => {
   padding: 12px;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #ffffff;
-  background-color: #4477ce;
+  color: #0a0f0d;
+  background-color: #00ff66;
   border: none;
-  border-radius: 8px;
+  border-radius: 2px;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
   margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .btn-primary:hover {
-  background-color: #2f5bb5;
+  background-color: #33ff77;
+  box-shadow: 0 0 15px rgba(0, 255, 102, 0.4);
 }
 
 .btn-primary:active {
@@ -209,29 +216,30 @@ const handleResetPassword = () => {
   text-align: center;
   margin-top: 25px;
   margin-bottom: 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .switch-mode a {
-  color: #4477ce;
+  color: #00ff66;
   text-decoration: none;
   font-weight: 500;
-  transition: text-decoration 0.2s;
+  transition: opacity 0.2s;
 }
 
 .switch-mode a:hover {
   text-decoration: underline;
+  opacity: 0.8;
 }
 
 .alert-success {
-  background-color: #e6f4ea;
-  color: #137333;
+  background-color: #051a0d;
+  color: #33ff77;
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 2px;
   font-size: 0.85rem;
   font-weight: 500;
   text-align: center;
   margin-bottom: 20px;
-  border: 1px solid #ceead6;
+  border: 1px solid #00ff66;
 }
 </style>
